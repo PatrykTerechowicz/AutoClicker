@@ -31,6 +31,8 @@ public class RootLayoutController {
 	
 	
 	public void initialize() {
-		
+		atMouseCheckBox.setOnAction(x -> {
+			System.out.println(atMouseCheckBox.isSelected());
+		});
 	}
 }
