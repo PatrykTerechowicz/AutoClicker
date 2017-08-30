@@ -91,10 +91,4 @@ public class RootLayoutController {
 		}
 		return interval;
 	}
-	
-	public void stopClickThread() {
-		if(clickThread != null) {
-			clickThread.stopClicking();
-		}
-	}
 }

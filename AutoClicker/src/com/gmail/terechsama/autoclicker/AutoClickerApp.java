@@ -47,9 +47,4 @@ public class AutoClickerApp extends Application {
 		}
 		return robot;
 	}
-	
-	@Override
-	public void stop() throws Exception {
-		controller.stopClickThread();
-	}
 }

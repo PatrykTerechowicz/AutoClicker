@@ -7,9 +7,10 @@ public class Click extends Thread {
 	private boolean running;
 	private Robot robot;
 	private long interval;
-	public Click(Robot robot, long interval) {
+	public Click(Robot robot2, long interval) {
+		this.setDaemon(true);
 		running = true;
-		this.robot = robot;
+		this.robot = robot2;
 		this.interval = interval;
 	}
 	
