@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -14,7 +15,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gmail.terechsama.autoclicker.view.RootLayoutController">
    <children>
       <HBox VBox.vgrow="ALWAYS">
@@ -23,13 +23,27 @@
                <children>
                   <Label text="Coordinates" />
                   <Separator prefWidth="200.0" />
-                  <CheckBox fx:id="atMouseCheckBox" mnemonicParsing="false" text="At mouse" />
+                  <HBox prefWidth="200.0">
+                     <children>
+                        <CheckBox fx:id="atMouseCheckBox" mnemonicParsing="false" text="At mouse" />
+                        <Label text="0" fx:id="xLabel">
+                           <HBox.margin>
+                              <Insets left="8.0" right="8.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label fx:id="yLabel" text="0">
+                           <HBox.margin>
+                              <Insets right="8.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
                   <HBox>
                      <children>
-                        <Label text="Y:" HBox.hgrow="ALWAYS" />
-                        <TextField fx:id="yCoordinateField" prefWidth="60.0" HBox.hgrow="NEVER" />
                         <Label text="X:" HBox.hgrow="ALWAYS" />
                         <TextField prefWidth="60.0" HBox.hgrow="NEVER" fx:id="xCoordinateField" />
+                        <Label text="Y:" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="yCoordinateField" prefWidth="60.0" HBox.hgrow="NEVER" />
                      </children>
                   </HBox>
                   <Label text="Time Setting" />
@@ -59,12 +73,15 @@
                   <RadioButton fx:id="rightRadioButton" mnemonicParsing="false" text="Right Mouse Button" toggleGroup="$mouseButton" />
                </children>
             </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
+      <Separator prefWidth="200.0" />
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+          <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
+            <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" />
         </items>
       </ToolBar>
    </children>
