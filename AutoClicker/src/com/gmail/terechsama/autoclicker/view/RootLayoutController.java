@@ -67,7 +67,12 @@ public class RootLayoutController {
 			if(clickThread != null) {
 				clickThread.stopClicking();
 			}
-			clickThread = new Click(application.getRobot(), this.getInterval());
+			try {
+				clickThread = new Click(application.getRobot(), this.getInterval());
+			}catch(NumberFormatException e) {
+				x.consume();
+				return;
+			}
 			clickThread.start();
 		});
 	}
@@ -80,15 +85,10 @@ public class RootLayoutController {
 		});
 	}
 	
-	private long getInterval() {
+	private long getInterval() throws NumberFormatException{
 		long interval = 200;
 		String readIntervalField = intervalField.getText();
-		try{
-			interval = Long.parseLong(readIntervalField.trim());
-		}catch(NumberFormatException e) {
-			interval = 200;
-			intervalField.setText("HAS BE NUMBER");
-		}
+		interval = Long.parseLong(readIntervalField.trim());
 		return interval;
 	}
 }
