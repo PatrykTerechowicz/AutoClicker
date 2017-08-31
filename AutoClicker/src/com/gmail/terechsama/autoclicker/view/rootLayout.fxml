@@ -70,6 +70,7 @@
                         <ToggleGroup fx:id="mouseButton" />
                      </toggleGroup>
                   </RadioButton>
+                  <RadioButton fx:id="middleRadioButton" mnemonicParsing="false" text="Middle Mouse Button" toggleGroup="$mouseButton" />
                   <RadioButton fx:id="rightRadioButton" mnemonicParsing="false" text="Right Mouse Button" toggleGroup="$mouseButton" />
                </children>
             </VBox>

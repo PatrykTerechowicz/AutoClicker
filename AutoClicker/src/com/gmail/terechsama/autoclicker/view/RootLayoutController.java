@@ -17,7 +17,7 @@ public class RootLayoutController {
 
     @FXML
     private CheckBox atMouseCheckBox;
-    
+
     @FXML
     private Label xLabel;
 
@@ -25,10 +25,10 @@ public class RootLayoutController {
     private Label yLabel;
 
     @FXML
-    private TextField yCoordinateField;
+    private TextField xCoordinateField;
 
     @FXML
-    private TextField xCoordinateField;
+    private TextField yCoordinateField;
 
     @FXML
     private TextField intervalField;
@@ -40,11 +40,14 @@ public class RootLayoutController {
     private ToggleGroup mouseButton;
 
     @FXML
+    private RadioButton middleRadioButton;
+
+    @FXML
     private RadioButton rightRadioButton;
-    
+
     @FXML
     private Button startButton;
-    
+
     @FXML
     private Button stopButton;
     
@@ -68,7 +71,7 @@ public class RootLayoutController {
 				clickThread.stopClicking();
 			}
 			try {
-				clickThread = new Click(application.getRobot(), this.getInterval());
+				clickThread = new Click(application.getRobot(), this.getInterval(), getButtonMask());
 			}catch(NumberFormatException e) {
 				x.consume();
 				return;
@@ -90,5 +93,13 @@ public class RootLayoutController {
 		String readIntervalField = intervalField.getText();
 		interval = Long.parseLong(readIntervalField.trim());
 		return interval;
+	}
+	
+	private int getButtonMask() {
+		if(leftRadioButton.isSelected())
+			return InputEvent.BUTTON1_DOWN_MASK;
+		if(rightRadioButton.isSelected())
+			return InputEvent.BUTTON3_DOWN_MASK;
+		return InputEvent.BUTTON2_DOWN_MASK;
 	}
 }
