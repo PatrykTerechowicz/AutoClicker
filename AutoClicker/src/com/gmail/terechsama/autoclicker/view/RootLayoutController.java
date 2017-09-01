@@ -74,6 +74,7 @@ public class RootLayoutController {
 				clickThread = new Click(application.getRobot(), this.getInterval(), getButtonMask());
 			}catch(NumberFormatException e) {
 				x.consume();
+				intervalField.setText("Type number");
 				return;
 			}
 			clickThread.start();
@@ -92,6 +93,9 @@ public class RootLayoutController {
 		long interval = 200;
 		String readIntervalField = intervalField.getText();
 		interval = Long.parseLong(readIntervalField.trim());
+		if(interval <= 0) {
+			throw new NumberFormatException();
+		}
 		return interval;
 	}
 	
