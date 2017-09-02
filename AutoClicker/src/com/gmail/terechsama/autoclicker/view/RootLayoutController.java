@@ -4,6 +4,7 @@ import java.awt.event.InputEvent;
 
 import com.gmail.terechsama.autoclicker.AutoClickerApp;
 import com.gmail.terechsama.autoclicker.Click;
+import com.gmail.terechsama.autoclicker.model.Point;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -70,14 +71,10 @@ public class RootLayoutController {
 			if(clickThread != null) {
 				clickThread.stopClicking();
 			}
-			try {
-				clickThread = new Click(application.getRobot(), this.getInterval(), getButtonMask());
-			}catch(NumberFormatException e) {
-				x.consume();
-				intervalField.setText("Type number");
-				return;
+			clickThread = createClickThread();
+			if(clickThread != null) {
+				clickThread.start();
 			}
-			clickThread.start();
 		});
 	}
 	
@@ -97,6 +94,33 @@ public class RootLayoutController {
 			throw new NumberFormatException();
 		}
 		return interval;
+	}
+	
+	private Click createClickThread() {
+		long interval = 0;
+		try {
+			interval = getInterval();
+		}catch(NumberFormatException e) {
+			intervalField.setText("Type positive number");
+			return null;
+		}
+		Click createdClickThread = new Click(application.getRobot(), interval, getButtonMask());
+		if(!atMouseCheckBox.isSelected()) {
+			try {
+				createdClickThread.setPoint(getCoordinates());
+			}catch(NumberFormatException e) {
+				xCoordinateField.setText("INTEGER");
+				yCoordinateField.setText("INTEGER");
+			}
+		}
+		return createdClickThread;
+	}
+	
+	private Point getCoordinates() throws NumberFormatException{
+		int x, y;
+		x = Integer.parseInt(xCoordinateField.getText().trim());
+		y = Integer.parseInt(yCoordinateField.getText().trim());
+		return new Point(x, y);
 	}
 	
 	private int getButtonMask() {
