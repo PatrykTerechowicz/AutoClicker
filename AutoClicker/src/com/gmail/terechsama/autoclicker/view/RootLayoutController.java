@@ -31,6 +31,9 @@ public class RootLayoutController {
 
     @FXML
     private TextField intervalField;
+    
+    @FXML
+    private TextField randomIntervalField;
 
     @FXML
     private RadioButton leftRadioButton;
@@ -107,7 +110,7 @@ public class RootLayoutController {
 	}
 	
 	private long getInterval() throws NumberFormatException{
-		long interval = 200;
+		long interval;
 		String readIntervalField = intervalField.getText();
 		interval = Long.parseLong(readIntervalField.trim());
 		if(interval <= 0) {
@@ -118,13 +121,20 @@ public class RootLayoutController {
 	
 	private Click createClickThread() {
 		long interval = 0;
+		int randomInterval = 0;
 		try {
 			interval = getInterval();
 		}catch(NumberFormatException e) {
 			intervalField.setText("Type positive number");
 			return null;
 		}
-		Click createdClickThread = new Click(application.getRobot(), interval, getButtonMask());
+		try {
+			randomInterval = getRandomInterval();
+		}catch(NumberFormatException e) {
+			randomIntervalField.setText("Type number");
+			return null;
+		}
+		Click createdClickThread = new Click(application.getRobot(), interval, getButtonMask(), randomInterval);
 		if(atCoordinatesRadioButton.isSelected()) {
 			try {
 				createdClickThread.setPoint(getCoordinates());
@@ -142,6 +152,16 @@ public class RootLayoutController {
 		x = Integer.parseInt(xCoordinateField.getText().trim());
 		y = Integer.parseInt(yCoordinateField.getText().trim());
 		return new Point(x, y);
+	}
+	
+	private int getRandomInterval() {
+		int randInterval;
+		String randIntervalString = randomIntervalField.getText();
+		randInterval = Integer.parseInt(randIntervalString);
+		if(randInterval < 0) {
+			throw new NumberFormatException();
+		}
+		return randInterval;
 	}
 	
 	private int getButtonMask() {
