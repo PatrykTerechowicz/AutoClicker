@@ -16,14 +16,12 @@ import javafx.scene.control.ToggleGroup;
 
 public class RootLayoutController {
 
-    @FXML
-    private CheckBox atMouseCheckBox;
 
     @FXML
-    private Label xLabel;
+    private RadioButton atCoordinatesRadioButton;
 
     @FXML
-    private Label yLabel;
+    private RadioButton atMouseRadioButton;
 
     @FXML
     private TextField xCoordinateField;
@@ -62,8 +60,30 @@ public class RootLayoutController {
 	
 	
 	public void initialize() {
+		initializeAtCoordinatesRadioButtons();
 		configureStartButton();
 		configureStopButton();
+	}
+	
+	private void initializeAtCoordinatesRadioButtons() {
+		disableCoordinates();
+		atMouseRadioButton.selectedProperty().addListener((obsrvable, oldValue, newValue) -> {
+			if(newValue) {
+				disableCoordinates();
+			}else {
+				enableCoordinates();
+			}
+		});
+	}
+	
+	private void disableCoordinates() {
+		xCoordinateField.setDisable(true);
+		yCoordinateField.setDisable(true);
+	}
+	
+	private void enableCoordinates() {
+		xCoordinateField.setDisable(false);
+		yCoordinateField.setDisable(false);
 	}
 	
 	private void configureStartButton() {
@@ -105,12 +125,13 @@ public class RootLayoutController {
 			return null;
 		}
 		Click createdClickThread = new Click(application.getRobot(), interval, getButtonMask());
-		if(!atMouseCheckBox.isSelected()) {
+		if(atCoordinatesRadioButton.isSelected()) {
 			try {
 				createdClickThread.setPoint(getCoordinates());
 			}catch(NumberFormatException e) {
 				xCoordinateField.setText("INTEGER");
 				yCoordinateField.setText("INTEGER");
+				return null;
 			}
 		}
 		return createdClickThread;

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
@@ -25,19 +23,15 @@
                   <Separator prefWidth="200.0" />
                   <HBox prefWidth="200.0">
                      <children>
-                        <CheckBox fx:id="atMouseCheckBox" mnemonicParsing="false" text="At mouse" />
-                        <Label text="0" fx:id="xLabel">
-                           <HBox.margin>
-                              <Insets left="8.0" right="8.0" />
-                           </HBox.margin>
-                        </Label>
-                        <Label fx:id="yLabel" text="0">
-                           <HBox.margin>
-                              <Insets right="8.0" />
-                           </HBox.margin>
-                        </Label>
+                        <RadioButton fx:id="atCoordinatesRadioButton" mnemonicParsing="false" text="Use coordinates">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="coordinates" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="atMouseRadioButton" mnemonicParsing="false" selected="true" text="Use mouse" toggleGroup="$coordinates" />
                      </children>
                   </HBox>
+                  <HBox prefWidth="200.0" />
                   <HBox>
                      <children>
                         <Label text="X:" HBox.hgrow="ALWAYS" />
@@ -61,6 +55,8 @@
                      <children>
                         <Label text="Time Interval" />
                         <TextField fx:id="intervalField" promptText="time in mills" GridPane.columnIndex="1" />
+                        <Label text="Random Interval" GridPane.rowIndex="1" />
+                        <TextField fx:id="randomIntervalField" text="10" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Label text="Select Button" />
