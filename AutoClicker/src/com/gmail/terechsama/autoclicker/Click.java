@@ -25,20 +25,21 @@ public class Click extends Thread {
 	@Override
 	public void run() {
 		Random rand = new Random();
-		long currentTime = System.currentTimeMillis();
-		long previousTime = System.currentTimeMillis();
 		int random = 0;
 		while(running) {
-			if((currentTime = System.currentTimeMillis())-previousTime >= (interval+random)) { // && keyBind for stopClicking is not active
-				if(point != null) { // && keybind for stop pointer move is not active 
+				if(point != null) {
 					robot.mouseMove(point.getX(), point.getY());
 				}
-				previousTime=currentTime;
 				robot.mousePress(button);
 				robot.mouseRelease(button);
 				if(randomInterval > 0)
 					random = rand.nextInt(randomInterval);
-			}
+				try {
+					Thread.sleep(interval+random);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
 	}
 	
