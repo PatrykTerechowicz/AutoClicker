@@ -4,6 +4,7 @@ import java.awt.event.InputEvent;
 
 import com.gmail.terechsama.autoclicker.AutoClickerApp;
 import com.gmail.terechsama.autoclicker.Click;
+import com.gmail.terechsama.autoclicker.MouseWatcher;
 import com.gmail.terechsama.autoclicker.model.Point;
 
 import javafx.fxml.FXML;
@@ -53,6 +54,12 @@ public class RootLayoutController {
     @FXML
     private Button stopButton;
     
+    @FXML
+    private Label xCoordinateLabel;
+    
+    @FXML
+    private Label yCoordinateLabel;
+    
     private AutoClickerApp application;
     
     private Click clickThread;
@@ -61,11 +68,16 @@ public class RootLayoutController {
     	application = app;
     }
 	
+    public void setCoordinateLabel(int x, int y) {
+    	xCoordinateLabel.setText(Integer.toString(x));
+    	yCoordinateLabel.setText(Integer.toString(y));
+    }
 	
 	public void initialize() {
 		initializeAtCoordinatesRadioButtons();
 		configureStartButton();
 		configureStopButton();
+		new MouseWatcher(this).start();
 	}
 	
 	private void initializeAtCoordinatesRadioButtons() {
@@ -171,4 +183,5 @@ public class RootLayoutController {
 			return InputEvent.BUTTON3_DOWN_MASK;
 		return InputEvent.BUTTON2_DOWN_MASK;
 	}
+
 }

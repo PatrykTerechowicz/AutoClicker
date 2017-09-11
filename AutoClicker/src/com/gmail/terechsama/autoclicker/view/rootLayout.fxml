@@ -82,7 +82,7 @@
                               <Insets />
                            </HBox.margin>
                         </Label>
-                        <Label prefWidth="26.0" text="1234">
+                        <Label prefWidth="26.0" text="1234" fx:id="xCoordinateLabel">
                            <HBox.margin>
                               <Insets left="8.0" />
                            </HBox.margin>
@@ -92,7 +92,7 @@
                               <Insets left="8.0" />
                            </HBox.margin>
                         </Label>
-                        <Label prefWidth="26.0" text="1234">
+                        <Label fx:id="yCoordinateLabel" prefWidth="26.0" text="1234">
                            <HBox.margin>
                               <Insets left="8.0" />
                            </HBox.margin>
