@@ -126,13 +126,7 @@ public class RootLayoutController {
 	
 	private void configureStartButton() {
 		startButton.setOnAction(x ->{
-			if(clickThread != null) {
-				clickThread.stopClicking();
-			}
-			clickThread = createClickThread();
-			if(clickThread != null) {
-				clickThread.start();
-			}
+			startClicking();
 		});
 	}
 	
@@ -210,6 +204,16 @@ public class RootLayoutController {
 	public void stopClicking() {
 		if(clickThread != null)
 			clickThread.stopClicking();
+	}
+
+	public void startClicking() {
+		if(clickThread != null) {
+			clickThread.stopClicking();
+		}
+		clickThread = createClickThread();
+		if(clickThread != null) {
+			clickThread.start();
+		}
 	}
 
 }

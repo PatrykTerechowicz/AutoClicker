@@ -11,9 +11,7 @@ public abstract class Keybind {
 	
 	public Keybind(int... keys) {
 		this.keys = new ArrayList<Integer>();
-		for(int key: keys) {
-			this.keys.add(key);
-		}
+		setKeys(keys);
 	}
 	
 	public boolean isKeybindActive(Collection<Integer> keysPressed) {
@@ -29,5 +27,13 @@ public abstract class Keybind {
 		return result;
 	}
 	
+	public void setKeys(int... keys) {
+		for(int key: keys) {
+			this.keys.add(key);
+		}
+	}
+	
 	public abstract void doJob();
+	
+	
 }
