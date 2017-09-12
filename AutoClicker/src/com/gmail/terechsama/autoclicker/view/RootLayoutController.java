@@ -7,6 +7,8 @@ import com.gmail.terechsama.autoclicker.Click;
 import com.gmail.terechsama.autoclicker.MouseWatcher;
 import com.gmail.terechsama.autoclicker.model.Point;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -71,6 +73,10 @@ public class RootLayoutController {
     public void setCoordinateLabel(int x, int y) {
     	xCoordinateLabel.setText(Integer.toString(x));
     	yCoordinateLabel.setText(Integer.toString(y));
+    }
+    
+    public boolean isFocused() {
+    	return application.getPrimaryStage().focusedProperty().get();
     }
 	
 	public void initialize() {

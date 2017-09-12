@@ -16,9 +16,11 @@ public class AutoClickerApp extends Application {
 	private static final String LAYOUT_LOCATION = "view/rootLayout.fxml";
 	private Robot robot;
 	private RootLayoutController controller;
+	private Stage primaryStage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 		initializeLayout(primaryStage);
 	}
 
@@ -46,5 +48,9 @@ public class AutoClickerApp extends Application {
 			}
 		}
 		return robot;
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
 	}
 }
