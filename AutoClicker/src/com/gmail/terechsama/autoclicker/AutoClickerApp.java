@@ -3,6 +3,9 @@ package com.gmail.terechsama.autoclicker;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,11 +16,11 @@ import org.jnativehook.keyboard.NativeKeyListener;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseListener;
 
+import com.gmail.terechsama.autoclicker.model.Keybind;
 import com.gmail.terechsama.autoclicker.utils.JavaFxDispatchService;
 import com.gmail.terechsama.autoclicker.view.RootLayoutController;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,21 +31,32 @@ public class AutoClickerApp extends Application implements NativeKeyListener, Na
 	private Robot robot;
 	private RootLayoutController controller;
 	private Stage primaryStage;
+	private TreeSet<Integer> keysPressed;
+	private List<Keybind> keybinds;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		this.primaryStage = primaryStage;
-		initializeLayout(primaryStage);
-	}
-
-	public static void main(String[] args) {
 		try {
 			GlobalScreen.registerNativeHook();
 		}catch(NativeHookException e) {
 			e.printStackTrace();
 		}
+		keybinds = new ArrayList<Keybind>();
+		keybinds.add(new Keybind(44, 29) {
+			@Override
+			public void doJob() {
+				System.out.println("Chuj ci w dupe");
+			}
+		});
+		GlobalScreen.addNativeKeyListener(this);
 		GlobalScreen.setEventDispatcher(new JavaFxDispatchService());
 		Logger.getLogger(GlobalScreen.class.getPackage().getName()).setLevel(Level.WARNING);;
+		keysPressed = new TreeSet<Integer>();
+		this.primaryStage = primaryStage;
+		initializeLayout(primaryStage);
+	}
+
+	public static void main(String[] args) {
 		launch(args);
 	}
 	
@@ -54,7 +68,6 @@ public class AutoClickerApp extends Application implements NativeKeyListener, Na
 		Scene scene = new Scene(parent);
 		primaryStage.setScene(scene);
 		primaryStage.show(); 
-		GlobalScreen.addNativeKeyListener(this);
 		primaryStage.setOnCloseRequest((x) -> {
 			try {
 				GlobalScreen.unregisterNativeHook();
@@ -89,33 +102,19 @@ public class AutoClickerApp extends Application implements NativeKeyListener, Na
 
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent nativeEvent) {
-		if(nativeEvent.getKeyCode() == NativeKeyEvent.VC_CONTROL) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					controller.pauseClicking();
-				}
-			});
-		}else if(nativeEvent.getKeyCode() == NativeKeyEvent.VC_SHIFT) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					controller.stopClicking();
-				}
-			});
-		}
+		keysPressed.add(nativeEvent.getKeyCode());
+		System.out.println(keysPressed.toString());
+		keybinds.forEach((x) -> {
+			if(x.isKeybindActive(keysPressed)) {
+				x.doJob();
+			}
+		});
 	}
 
 	@Override
 	public void nativeKeyReleased(NativeKeyEvent nativeEvent) {
-		if(nativeEvent.getKeyCode() == NativeKeyEvent.VC_CONTROL) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
-					controller.resumeClicking();
-				}
-			});
-		}
+		keysPressed.remove(nativeEvent.getKeyCode());
+		System.out.println(keysPressed.toString());
 	}
 	
 	@Override
