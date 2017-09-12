@@ -17,23 +17,24 @@ public class MouseWatcher extends Thread{
 	
 	@Override
 	public void run() {
-		while(true) {
-			if(controller.isFocused()) {
-				int x = (int) MouseInfo.getPointerInfo().getLocation().getX();
-				int y = (int) MouseInfo.getPointerInfo().getLocation().getY();
-				
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						controller.setCoordinateLabel(x, y);
-					}
-				});
-			}
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		synchronized (this) {
+			while(true) {
+				if(controller.isFocused()) {
+					int x = (int) MouseInfo.getPointerInfo().getLocation().getX();
+					int y = (int) MouseInfo.getPointerInfo().getLocation().getY();
+					
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							controller.setCoordinateLabel(x, y);
+						}
+					});
+				}
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

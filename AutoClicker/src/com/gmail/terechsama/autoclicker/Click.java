@@ -12,6 +12,7 @@ public class Click extends Thread {
 	private int button;
 	private Point point;
 	private int randomInterval;
+	private boolean pause;
 	public Click(Robot robot, long interval, int button, int randomInterval) {
 		this.setDaemon(true);
 		running = true;
@@ -30,8 +31,10 @@ public class Click extends Thread {
 				if(point != null) {
 					robot.mouseMove(point.getX(), point.getY());
 				}
-				robot.mousePress(button);
-				robot.mouseRelease(button);
+				if(!pause) {
+					robot.mousePress(button);
+					robot.mouseRelease(button);
+				}
 				if(randomInterval > 0)
 					random = rand.nextInt(randomInterval);
 				try {
@@ -53,5 +56,13 @@ public class Click extends Thread {
 	
 	public void stopClicking() {
 		running = false;
+	}
+	
+	public void pauseClicking() {
+		pause = true;
+	}
+	
+	public void resumeClicking() {
+		pause = false;
 	}
 }

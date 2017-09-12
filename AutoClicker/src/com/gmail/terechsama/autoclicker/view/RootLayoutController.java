@@ -66,6 +66,8 @@ public class RootLayoutController {
     
     private Click clickThread;
     
+    private MouseWatcher mouseWatcherThread;
+    
     public void setApplication(AutoClickerApp app) {
     	application = app;
     }
@@ -83,7 +85,22 @@ public class RootLayoutController {
 		initializeAtCoordinatesRadioButtons();
 		configureStartButton();
 		configureStopButton();
-		new MouseWatcher(this).start();
+		initializeMouseWatcher();
+	}
+	
+	public void initializeMouseWatcher() {
+		mouseWatcherThread = new MouseWatcher(this);
+		mouseWatcherThread.start();
+	}
+	
+	public void pauseClicking() {
+		if(clickThread != null)
+			clickThread.pauseClicking();
+	}
+	
+	public void resumeClicking() {
+		if(clickThread != null)
+			clickThread.resumeClicking();
 	}
 	
 	private void initializeAtCoordinatesRadioButtons() {
@@ -188,6 +205,11 @@ public class RootLayoutController {
 		if(rightRadioButton.isSelected())
 			return InputEvent.BUTTON3_DOWN_MASK;
 		return InputEvent.BUTTON2_DOWN_MASK;
+	}
+
+	public void stopClicking() {
+		if(clickThread != null)
+			clickThread.stopClicking();
 	}
 
 }
